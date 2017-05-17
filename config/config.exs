@@ -13,3 +13,4 @@ use Mix.Config
 
 config :nerves, :firmware, rootfs_additions: "config/rootfs-additions"
 
+config :hello_nerves, :led_pin, 23
