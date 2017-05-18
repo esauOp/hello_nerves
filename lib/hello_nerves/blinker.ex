@@ -14,10 +14,11 @@ defmodule HelloNerves.Blinker do
 
   defp blink_led_forever(pin) do
     Logger.debug "Blinking pin #{@led_pin}"
+    blink_ms = HelloNerves.Store.get(:blink_ms) # New!
     Gpio.write(pin, 1)
-    :timer.sleep(1000)
+    :timer.sleep(blink_ms)
     Gpio.write(pin, 0)
-    :timer.sleep(1000)
+    :timer.sleep(blink_ms)
 
     blink_led_forever(pin)
   end

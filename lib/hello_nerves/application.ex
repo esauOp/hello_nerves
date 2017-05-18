@@ -16,6 +16,7 @@ defmodule HelloNerves.Application do
       worker(Task, [fn -> init_kernel_modules() end], restart: :transient, id: Nerves.Init.KernelModules),
       Plug.Adapters.Cowboy.child_spec(:http, HelloNerves.Router, [], [port: 5000]),
       worker(Task, [fn -> init_network() end], restart: :transient, id: Nerves.Init.Network),
+      worker(HelloNerves.Store, []),
       worker(HelloNerves.Blinker, [])
       # worker(HelloNerves.Worker, [arg1, arg2, arg3]),
     ]
