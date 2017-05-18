@@ -3,6 +3,7 @@ defmodule HelloNerves.Application do
 
   require Logger
 
+  @interface :wlan0
   @kernel_modules Mix.Project.config[:kernel_modules] || []
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
@@ -13,6 +14,7 @@ defmodule HelloNerves.Application do
     # Define workers and child supervisors to be supervised
     children = [
       worker(Task, [fn -> init_kernel_modules() end], restart: :transient, id: Nerves.Init.KernelModules),
+      worker(Task, [fn -> init_network() end], restart: :transient, id: Nerves.Init.Network),
       worker(HelloNerves.Blinker, [])
       # worker(HelloNerves.Worker, [arg1, arg2, arg3]),
     ]
@@ -27,4 +29,8 @@ defmodule HelloNerves.Application do
     Enum.each(@kernel_modules, & System.cmd("modprobe", [&1]))
   end
 
+  def init_network() do
+    opts = Application.get_env(:hello_nerves, @interface)
+    Nerves.InterimWiFi.setup(@interface, opts)
+  end
 end

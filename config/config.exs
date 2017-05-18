@@ -14,3 +14,8 @@ use Mix.Config
 config :nerves, :firmware, rootfs_additions: "config/rootfs-additions"
 
 config :hello_nerves, :led_pin, 23
+
+config :hello_nerves, :wlan0,
+  ssid: "El Cowork 2.4GHz (2)",
+  key_mgmt: :"WPA-PSK", # :NONE if no password
+  psk: "huskysea179"
